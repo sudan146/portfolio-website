@@ -2,10 +2,487 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nirjala | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS VARIABLES & THEME --- */
+        :root {
+            --bg-dark: #0a0a0c;
+            --bg-card: #121216;
+            --accent-cyan: #00f0ff;
+            --accent-blue: #0072ff;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #222227;
+            --glow: rgba(0, 240, 255, 0.15);
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        /* --- RESET & BASE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- REUSABLE UTILITIES --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 40px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 2px;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 70px;
+            position: relative;
+        }
+
+        /* Subtle radial glow background */
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,240,255,0.05) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-mono {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #000;
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px var(--glow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 240, 255, 0.3);
+        }
+
+        /* --- SECTIONS GENERAL --- */
+        section {
+            padding: 8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- ABOUT & SKILLS --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 4rem;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-category {
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-category h4 {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-main);
+        }
+
+        /* --- PROJECTS --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        .project-header h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech li {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            background: rgba(0, 240, 255, 0.05);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .project-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* --- CONTACT --- */
+        .contact-wrapper {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-wrapper p {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .email-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            font-family: var(--font-mono);
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border-radius: 4px;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .email-btn:hover {
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 2.5rem 0;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.75rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .nav-links { display: none; } /* Simplify for mobile */
+            section { padding: 5rem 0; }
+        }
+    </style>
 </head>
 <body>
-    Working on it
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NIRJALA<span>.</span></div>
+                <ul class="nav-links">
+                    <li><a href="#about">// about</a></li>
+                    <li><a href="#projects">// projects</a></li>
+                    <li><a href="#contact">// contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-mono">Hello world, I am</span>
+                <h1 class="hero-title">Nirjala.</h1>
+                <p class="hero-subtitle">
+                    A tech student and developer specializing in Data Science, Machine Learning, and building high-performance systems.
+                </p>
+                <a href="#projects" class="hero-cta">View My Work</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        I'm currently pursuing my degree in information technology, focusing heavily on data-driven architectures and intelligent system simulations. I love bridge-building between raw data analytics and clean, functional user interfaces.
+                    </p>
+                    <p>
+                        Whether designing fault-tolerant system simulations or tweaking custom algorithmic behaviors, I aim for clean code, optimized workflows, and stunning design logic.
+                    </p>
+                </div>
+                
+                <div class="about-skills">
+                    <div class="skills-category">
+                        <h4>Core Focus</h4>
+                        <div class="skills-tags">
+                            <span class="tag">Data Science</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Distributed Systems</span>
+                        </div>
+                    </div>
+                    <div class="skills-category">
+                        <h4>Languages & Tools</h4>
+                        <div class="skills-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">SQL</span>
+                            <span class="tag">Git</span>
+                            <span class="tag">HTML5 / CSS3</span>
+                            <span class="tag">Pygame</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="project-grid">
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>2D Highway Traffic Simulator</h3>
+                        <p class="project-desc">
+                            An object-oriented simulation platform modeling realistic traffic flows, intersection light behaviors, and vehicle interaction dynamics.
+                        </p>
+                    </div>
+                    <div>
+                        <ul class="project-tech">
+                            <li>Python</li>
+                            <li>Pygame</li>
+                            <li>OOP</li>
+                        </ul>
+                        <a href="#" class="project-link">View Repository &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Linear Regression Lab Model</h3>
+                        <p class="project-desc">
+                            A classic machine learning data analysis model mapping experimental variables to evaluate real-time return trends.
+                        </p>
+                    </div>
+                    <div>
+                        <ul class="project-tech">
+                            <li>Python</li>
+                            <li>NumPy</li>
+                            <li>Matplotlib</li>
+                        </ul>
+                        <a href="#" class="project-link">View Analytics &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Biomimicry Ecosystem Simulation</h3>
+                        <p class="project-desc">
+                            An algorithmic playground visualizing biological multi-agent dynamics like flocking behaviors and predator-prey lifecycles.
+                        </p>
+                    </div>
+                    <div>
+                        <ul class="project-tech">
+                            <li>Python</li>
+                            <li>Simulation Math</li>
+                        </ul>
+                        <a href="#" class="project-link">View Showcase &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <h2 class="section-title">Get In Touch</h2>
+                <p>
+                    I am always looking for collaborative projects, backend challenges, or data science ventures. Drop a line if you want to collaborate or grab a coffee.
+                </p>
+                <a href="mailto:your.email@example.com" class="email-btn">Say Hello</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Nirjala. Built from scratch with pure code.</p>
+        </div>
+    </footer>
+
 </body>
 </html>
